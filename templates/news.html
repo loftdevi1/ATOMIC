@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>News - ATOMIC</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+  </head>
+  <body>
+    <h1>News for {{ symbol }}</h1>
+    <ul>
+      {% for article in news %}
+      <li>
+        <a href="{{ article['url'] }}" target="_blank">{{ article['title'] }}</a>
+        <p>{{ article['description'] }}</p>
+        <p>
+            Sentiment: 
+            {% if article['sentiment'] > 0 %} 🟢 Positive {% elif article['sentiment'] < 0 %} 🔴 Negative {% else %} ⚪ Neutral {% endif %}
+        </p>
+    </li>
+    
+      {% endfor %}
+    </ul>
+    <a href="/">Back to Home</a>
+  </body>
+</html>

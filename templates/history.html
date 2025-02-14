@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Historical Data - ATOMIC</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+  </head>
+  <body>
+    <h1>Historical Data for {{ symbol }} ({{ exchange }})</h1>
+    <canvas id="stockChart"></canvas>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+      const labels = {{ data | tojson | safe }}.map(row => row.Date);
+      const prices = {{ data | tojson | safe }}.map(row => row.Close);
+
+      const ctx = document.getElementById('stockChart').getContext('2d');
+      new Chart(ctx, {
+          type: 'line',
+          data: {
+              labels: labels,
+              datasets: [{
+                  label: 'Stock Price (₹)',
+                  data: prices,
+                  borderColor: 'green',
+                  backgroundColor: 'rgba(0, 255, 0, 0.1)',
+                  borderWidth: 2
+              }]
+          },
+          options: {
+              responsive: true,
+              scales: {
+                  x: { display: true },
+                  y: { display: true }
+              }
+          }
+      });
+    </script>
+
+    <a href="/">Back to Home</a>
+  </body>
+</html>
